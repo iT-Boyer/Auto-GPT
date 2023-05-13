@@ -40,6 +40,12 @@ def build_default_prompt_generator() -> PromptGenerator:
     prompt_generator.add_constraint(
         'Exclusively use the commands listed in double quotes e.g. "command name"'
     )
+    prompt_generator.add_constraint(
+        "Exclusively use chinese for the command Browse Website. Also "
+        "output Thoughts, reasoning, plan and criticism in chinese."
+    )
+    prompt_generator.add_constraint("回复必须为中文")
+    prompt_generator.add_constraint("如果回复内容不是中文，则需要将其翻译为中文")
 
     # Add resources to the PromptGenerator object
     prompt_generator.add_resource(

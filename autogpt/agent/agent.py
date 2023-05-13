@@ -196,7 +196,7 @@ class Agent:
                         break
                     elif console_input.lower().strip() == "s":
                         logger.typewriter_log(
-                            "-=-=-=-=-=-=-= THOUGHTS, REASONING, PLAN AND CRITICISM WILL NOW BE VERIFIED BY AGENT -=-=-=-=-=-=-=",
+                            "-=-=-=-=-=-=-= 代理人评估意见:灵感、愿景、行动和原则 -=-=-=-=-=-=-=",
                             Fore.GREEN,
                             "",
                         )
@@ -245,7 +245,7 @@ class Agent:
 
                 if user_input == "GENERATE NEXT COMMAND JSON":
                     logger.typewriter_log(
-                        "-=-=-=-=-=-=-= COMMAND AUTHORISED BY USER -=-=-=-=-=-=-=",
+                        "-=-=-=-=-=-=-= 用户授权的命令 -=-=-=-=-=-=-=",
                         Fore.MAGENTA,
                         "",
                     )
@@ -337,7 +337,12 @@ class Agent:
         """
         ai_role = self.config.ai_role
 
-        feedback_prompt = f"Below is a message from me, an AI Agent, assuming the role of {ai_role}. whilst keeping knowledge of my slight limitations as an AI Agent Please evaluate my thought process, reasoning, and plan, and provide a concise paragraph outlining potential improvements. Consider adding or removing ideas that do not align with my role and explaining why, prioritizing thoughts based on their significance, or simply refining my overall thought process."
+        # feedback_prompt = f"Below is a message from me, an AI Agent, assuming the role of {ai_role}. whilst keeping knowledge of my slight limitations as an AI Agent Please evaluate my thought process, reasoning, and plan, and provide a concise paragraph outlining potential improvements. Consider adding or removing ideas that do not align with my role and explaining why, prioritizing thoughts based on their significance, or simply refining my overall thought process."
+        feedback_prompt = f"""
+        下面是来自我的消息，我是一个ai代理，角色为{ai_role}。
+        在了解我作为AI代理的轻微局限性的同时，请评估我的思维过程、推理和计划，并提供一个简短的段落，概述可能的改进方案。
+        请考虑添加或删除与我的角色不一致的想法，并解释原因，再根据其重要性对想法进行优先排序，或者简单地改进我的整体思维过程。
+        """
         reasoning = thoughts.get("reasoning", "")
         plan = thoughts.get("plan", "")
         thought = thoughts.get("thoughts", "")

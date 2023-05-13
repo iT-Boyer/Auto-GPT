@@ -71,11 +71,11 @@ def construct_main_ai_config() -> AIConfig:
     """
     config = AIConfig.load(CFG.ai_settings_file)
     if CFG.skip_reprompt and config.ai_name:
-        logger.typewriter_log("Name :", Fore.GREEN, config.ai_name)
-        logger.typewriter_log("Role :", Fore.GREEN, config.ai_role)
-        logger.typewriter_log("Goals:", Fore.GREEN, f"{config.ai_goals}")
+        logger.typewriter_log("角色:", Fore.GREEN, config.ai_name)
+        logger.typewriter_log("使命:", Fore.GREEN, config.ai_role)
+        logger.typewriter_log("目标", Fore.GREEN, f"{config.ai_goals}")
         logger.typewriter_log(
-            "API Budget:",
+            "预算:",
             Fore.GREEN,
             "infinite" if config.api_budget <= 0 else f"${config.api_budget}",
         )
@@ -87,12 +87,12 @@ def construct_main_ai_config() -> AIConfig:
             speak_text=True,
         )
         should_continue = clean_input(
-            f"""Continue with the last settings?
-Name:  {config.ai_name}
-Role:  {config.ai_role}
-Goals: {config.ai_goals}
-API Budget: {"infinite" if config.api_budget <= 0 else f"${config.api_budget}"}
-Continue ({CFG.authorise_key}/{CFG.exit_key}): """
+            f"""继续上次的角色设定吗?
+角色:  {config.ai_name}
+使命:  {config.ai_role}
+目标: {config.ai_goals}
+预算: {"infinite" if config.api_budget <= 0 else f"${config.api_budget}"}
+继续? ({CFG.authorise_key}/{CFG.exit_key}): """
         )
         if should_continue.lower() == CFG.exit_key:
             config = AIConfig()
@@ -115,17 +115,17 @@ Continue ({CFG.authorise_key}/{CFG.exit_key}): """
     logger.typewriter_log(
         config.ai_name,
         Fore.LIGHTBLUE_EX,
-        "has been created with the following details:",
+        "设定角色和使命,完成第一次创造:",
         speak_text=True,
     )
 
     # Print the ai config details
     # Name
-    logger.typewriter_log("Name:", Fore.GREEN, config.ai_name, speak_text=False)
+    logger.typewriter_log("角色:", Fore.GREEN, config.ai_name, speak_text=False)
     # Role
-    logger.typewriter_log("Role:", Fore.GREEN, config.ai_role, speak_text=False)
+    logger.typewriter_log("使命:", Fore.GREEN, config.ai_role, speak_text=False)
     # Goals
-    logger.typewriter_log("Goals:", Fore.GREEN, "", speak_text=False)
+    logger.typewriter_log("目标:", Fore.GREEN, "", speak_text=False)
     for goal in config.ai_goals:
         logger.typewriter_log("-", Fore.GREEN, goal, speak_text=False)
 

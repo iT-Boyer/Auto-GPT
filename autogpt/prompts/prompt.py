@@ -86,7 +86,7 @@ def construct_main_ai_config() -> AIConfig:
     if CFG.skip_reprompt and config.ai_name:
         logger.typewriter_log("角色:", Fore.GREEN, config.ai_name)
         logger.typewriter_log("使命:", Fore.GREEN, config.ai_role)
-        logger.typewriter_log("目标", Fore.GREEN, f"{config.ai_goals}")
+        logger.typewriter_log("愿景", Fore.GREEN, f"{config.ai_goals}")
         logger.typewriter_log(
             "预算:",
             Fore.GREEN,
@@ -94,16 +94,16 @@ def construct_main_ai_config() -> AIConfig:
         )
     elif config.ai_name:
         logger.typewriter_log(
-            "Welcome back! ",
+            "欢迎回来! ",
             Fore.GREEN,
-            f"Would you like me to return to being {config.ai_name}?",
+            f"你想让我变回 {config.ai_name} 吗?",
             speak_text=True,
         )
         should_continue = clean_input(
             f"""继续上次的角色设定吗?
-角色:  {config.ai_name}
-使命:  {config.ai_role}
-目标: {config.ai_goals}
+角色: {config.ai_name}
+使命: {config.ai_role}
+愿景: {config.ai_goals}
 预算: {"infinite" if config.api_budget <= 0 else f"${config.api_budget}"}
 继续? ({CFG.authorise_key}/{CFG.exit_key}): """
         )
@@ -128,7 +128,7 @@ def construct_main_ai_config() -> AIConfig:
     logger.typewriter_log(
         config.ai_name,
         Fore.LIGHTBLUE_EX,
-        "设定角色和使命,完成第一次创造:",
+        "嗨，我已经完成了第一次创造:",
         speak_text=True,
     )
 
@@ -138,7 +138,7 @@ def construct_main_ai_config() -> AIConfig:
     # Role
     logger.typewriter_log("使命:", Fore.GREEN, config.ai_role, speak_text=False)
     # Goals
-    logger.typewriter_log("目标:", Fore.GREEN, "", speak_text=False)
+    logger.typewriter_log("愿景:", Fore.GREEN, "", speak_text=False)
     for goal in config.ai_goals:
         logger.typewriter_log("-", Fore.GREEN, goal, speak_text=False)
 

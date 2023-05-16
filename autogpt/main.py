@@ -134,14 +134,12 @@ def run_auto_gpt(
         "autogpt.app",
         "autogpt.commands.task_statuses",
     ]
-    logger.debug(
-        f"The following command categories are disabled: {cfg.disabled_command_categories}"
-    )
+    logger.debug(f"禁用以下命令类别: {cfg.disabled_command_categories}")
     command_categories = [
         x for x in command_categories if x not in cfg.disabled_command_categories
     ]
 
-    logger.debug(f"The following command categories are enabled: {command_categories}")
+    logger.debug(f"启用以下命令类别: {command_categories}")
 
     for command_category in command_categories:
         command_registry.import_commands(command_category)

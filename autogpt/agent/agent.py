@@ -166,7 +166,7 @@ class Agent:
             )
 
             logger.typewriter_log(
-                "NEXT ACTION: ",
+                "下一步: ",
                 Fore.CYAN,
                 f"COMMAND = {Fore.CYAN}{command_name}{Style.RESET_ALL}  "
                 f"ARGUMENTS = {Fore.CYAN}{arguments}{Style.RESET_ALL}",
@@ -178,13 +178,13 @@ class Agent:
                 # to exit
                 self.user_input = ""
                 logger.info(
-                    "Enter 'y' to authorise command, 'y -N' to run N continuous commands, 's' to run self-feedback commands, "
-                    "'n' to exit program, or enter feedback for "
+                    "'y' 授权, 'y -N' 免N次授权, 's' 助手自我校对, "
+                    "'n' 退出, 或人为校准"
                     f"{self.ai_name}..."
                 )
                 while True:
                     if cfg.chat_messages_enabled:
-                        console_input = clean_input("Waiting for your response...")
+                        console_input = clean_input("授权或校对:")
                     else:
                         console_input = clean_input(
                             Fore.MAGENTA + "Input:" + Style.RESET_ALL
@@ -203,7 +203,7 @@ class Agent:
                             thoughts, cfg.fast_llm_model
                         )
                         logger.typewriter_log(
-                            f"SELF FEEDBACK: {self_feedback_resp}",
+                            f"AI校准: {self_feedback_resp}",
                             Fore.YELLOW,
                             "",
                         )
@@ -211,7 +211,7 @@ class Agent:
                         command_name = "self_feedback"
                         break
                     elif console_input.lower().strip() == "":
-                        logger.warn("Invalid input format.")
+                        logger.warn("无效的输入格式。")
                         continue
                     elif console_input.lower().startswith(f"{cfg.authorise_key} -"):
                         try:
@@ -220,10 +220,7 @@ class Agent:
                             )
                             user_input = "GENERATE NEXT COMMAND JSON"
                         except ValueError:
-                            logger.warn(
-                                "Invalid input format. Please enter 'y -n' where n is"
-                                " the number of continuous tasks."
-                            )
+                            logger.warn("无效的输入格式. 请授权 'y -n' ")
                             continue
                         break
                     elif console_input.lower() == cfg.exit_key:
@@ -262,9 +259,9 @@ class Agent:
                     f"Command {command_name} threw the following error: {arguments}"
                 )
             elif command_name == "human_feedback":
-                result = f"Human feedback: {user_input}"
+                result = f"人为反馈: {user_input}"
             elif command_name == "self_feedback":
-                result = f"Self feedback: {user_input}"
+                result = f"助手反思: {user_input}"
             else:
                 for plugin in cfg.plugins:
                     if not plugin.can_handle_pre_command():

@@ -132,7 +132,7 @@ def create_chat_completion(
     num_retries = 10
     warned_user = False
     logger.debug(
-        f"{Fore.GREEN}Creating chat completion with model {model}, temperature {temperature}, max_tokens {max_tokens}{Fore.RESET}"
+        f"{Fore.GREEN} 使用 {model} 创建对话补全, 温度 {temperature}, tokens上限 {max_tokens}{Fore.RESET}"
     )
     for plugin in cfg.plugins:
         if plugin.can_handle_chat_completion(

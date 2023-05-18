@@ -32,8 +32,25 @@ def build_default_prompt_generator() -> PromptGenerator:
     prompt_config = PromptConfig(CFG.prompt_settings_file)
 
     # Add constraints to the PromptGenerator object
-    for constraint in prompt_config.constraints:
-        prompt_generator.add_constraint(constraint)
+
+    prompt_generator.add_constraint(
+        "~4000 word limit for short term memory. Your short term memory is short, so"
+        " immediately save important information to files."
+    )
+    prompt_generator.add_constraint(
+        "If you are unsure how you previously did something or want to recall past"
+        " events, thinking about similar events will help you remember."
+    )
+    prompt_generator.add_constraint("No user assistance")
+    prompt_generator.add_constraint(
+        "Exclusively use the commands listed below e.g. command_name"
+    )
+    prompt_generator.add_constraint(
+        "Exclusively use chinese for the command Browse Website. Also "
+        "output Thoughts, reasoning, plan and criticism in chinese."
+    )
+    prompt_generator.add_constraint("回复必须为中文")
+    prompt_generator.add_constraint("如果回复内容不是中文，则需要将其翻译为中文")
 
     # Add resources to the PromptGenerator object
     for resource in prompt_config.resources:

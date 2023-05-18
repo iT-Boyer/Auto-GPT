@@ -131,16 +131,13 @@ def run_auto_gpt(
     # Create a CommandRegistry instance and scan default folder
     command_registry = CommandRegistry()
 
-    logger.debug(
-        f"The following command categories are disabled: {config.disabled_command_categories}"
-    )
+    logger.debug(f"禁用以下命令类别: {config.disabled_command_categories}")
+
     enabled_command_categories = [
         x for x in COMMAND_CATEGORIES if x not in config.disabled_command_categories
     ]
 
-    logger.debug(
-        f"The following command categories are enabled: {enabled_command_categories}"
-    )
+    logger.debug(f"启用以下命令类别:: {enabled_command_categories}")
 
     for command_category in enabled_command_categories:
         command_registry.import_commands(command_category)

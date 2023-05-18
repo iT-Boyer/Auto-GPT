@@ -54,7 +54,7 @@ def clean_input(config: Config, prompt: str = "", talk=False):
                 return plugin_response
 
         # ask for input, default when just pressing Enter is y
-        logger.info("Asking user via keyboard...")
+        logger.info("等待键盘输入...")
         answer = session.prompt(ANSI(prompt))
         return answer
     except KeyboardInterrupt:

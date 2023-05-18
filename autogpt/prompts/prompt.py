@@ -30,8 +30,25 @@ def build_default_prompt_generator(config: Config) -> PromptGenerator:
     prompt_config = PromptConfig(config.prompt_settings_file)
 
     # Add constraints to the PromptGenerator object
-    for constraint in prompt_config.constraints:
-        prompt_generator.add_constraint(constraint)
+
+    prompt_generator.add_constraint(
+        "~4000 word limit for short term memory. Your short term memory is short, so"
+        " immediately save important information to files."
+    )
+    prompt_generator.add_constraint(
+        "If you are unsure how you previously did something or want to recall past"
+        " events, thinking about similar events will help you remember."
+    )
+    prompt_generator.add_constraint("No user assistance")
+    prompt_generator.add_constraint(
+        "Exclusively use the commands listed below e.g. command_name"
+    )
+    prompt_generator.add_constraint(
+        "Exclusively use chinese for the command Browse Website. Also "
+        "output Thoughts, reasoning, plan and criticism in chinese."
+    )
+    prompt_generator.add_constraint("回复必须为中文")
+    prompt_generator.add_constraint("如果回复内容不是中文,则需要将其翻译为中文")
 
     # Add resources to the PromptGenerator object
     for resource in prompt_config.resources:
@@ -56,7 +73,6 @@ def construct_main_ai_config(
         str: The prompt string
     """
     ai_config = AIConfig.load(config.ai_settings_file)
-
     # Apply overrides
     if name:
         ai_config.ai_name = name
@@ -73,26 +89,27 @@ def construct_main_ai_config(
         logger.typewriter_log("Name :", Fore.GREEN, ai_config.ai_name)
         logger.typewriter_log("Role :", Fore.GREEN, ai_config.ai_role)
         logger.typewriter_log("Goals:", Fore.GREEN, f"{ai_config.ai_goals}")
+
         logger.typewriter_log(
-            "API Budget:",
+            "预算:",
             Fore.GREEN,
             "infinite" if ai_config.api_budget <= 0 else f"${ai_config.api_budget}",
         )
     elif all([ai_config.ai_name, ai_config.ai_role, ai_config.ai_goals]):
         logger.typewriter_log(
-            "Welcome back! ",
+            "欢迎回来! ",
             Fore.GREEN,
-            f"Would you like me to return to being {ai_config.ai_name}?",
+            f"你想让我切回 {ai_config.ai_name}?",
             speak_text=True,
         )
         should_continue = clean_input(
             config,
-            f"""Continue with the last settings?
-Name:  {ai_config.ai_name}
-Role:  {ai_config.ai_role}
-Goals: {ai_config.ai_goals}
-API Budget: {"infinite" if ai_config.api_budget <= 0 else f"${ai_config.api_budget}"}
-Continue ({config.authorise_key}/{config.exit_key}): """,
+            f"""继续上次的角色设定吗?
+角色:  {ai_config.ai_name}
+职能:  {ai_config.ai_role}
+目标: {ai_config.ai_goals}
+预算: {"infinite" if ai_config.api_budget <= 0 else f"${ai_config.api_budget}"}
+继续? ({config.authorise_key}/{config.exit_key}): """,
         )
         if should_continue.lower() == config.exit_key:
             ai_config = AIConfig()
@@ -115,17 +132,17 @@ Continue ({config.authorise_key}/{config.exit_key}): """,
     logger.typewriter_log(
         ai_config.ai_name,
         Fore.LIGHTBLUE_EX,
-        "has been created with the following details:",
+        "嗨,这是我的简介:",
         speak_text=True,
     )
 
     # Print the ai_config details
     # Name
-    logger.typewriter_log("Name:", Fore.GREEN, ai_config.ai_name, speak_text=False)
+    logger.typewriter_log("角色:", Fore.GREEN, ai_config.ai_name, speak_text=False)
     # Role
-    logger.typewriter_log("Role:", Fore.GREEN, ai_config.ai_role, speak_text=False)
+    logger.typewriter_log("职能:", Fore.GREEN, ai_config.ai_role, speak_text=False)
     # Goals
-    logger.typewriter_log("Goals:", Fore.GREEN, "", speak_text=False)
+    logger.typewriter_log("目标:", Fore.GREEN, "", speak_text=False)
     for goal in ai_config.ai_goals:
         logger.typewriter_log("-", Fore.GREEN, goal, speak_text=False)
 

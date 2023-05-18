@@ -199,9 +199,7 @@ class Agent:
                 )
                 while True:
                     if self.config.chat_messages_enabled:
-                        console_input = clean_input(
-                            self.config, "Waiting for your response..."
-                        )
+                        console_input = clean_input(self.config, "授权或校对:")
                     else:
                         console_input = clean_input(
                             self.config, Fore.MAGENTA + "Input:" + Style.RESET_ALL
@@ -210,7 +208,7 @@ class Agent:
                         user_input = "GENERATE NEXT COMMAND JSON"
                         break
                     elif console_input.lower().strip() == "":
-                        logger.warn("Invalid input format.")
+                        logger.warn("无效的输入格式。")
                         continue
                     elif console_input.lower().startswith(
                         f"{self.config.authorise_key} -"
@@ -225,6 +223,7 @@ class Agent:
                                 f"Invalid input format. Please enter '{self.config.authorise_key} -n' "
                                 "where n is the number of continuous tasks."
                             )
+
                             continue
                         break
                     elif console_input.lower() == self.config.exit_key:
@@ -244,7 +243,7 @@ class Agent:
 
                 if user_input == "GENERATE NEXT COMMAND JSON":
                     logger.typewriter_log(
-                        "-=-=-=-=-=-=-= COMMAND AUTHORISED BY USER -=-=-=-=-=-=-=",
+                        "-=-=-=-=-=-=-= 用户授权的命令 -=-=-=-=-=-=-=",
                         Fore.MAGENTA,
                         "",
                     )
@@ -263,7 +262,7 @@ class Agent:
             if command_name is not None and command_name.lower().startswith("error"):
                 result = f"Could not execute command: {arguments}"
             elif command_name == "human_feedback":
-                result = f"Human feedback: {user_input}"
+                result = f"人为反馈: {user_input}"
             else:
                 for plugin in self.config.plugins:
                     if not plugin.can_handle_pre_command():

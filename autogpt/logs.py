@@ -269,7 +269,7 @@ def print_assistant_thoughts(
         assistant_thoughts_criticism = assistant_thoughts.get("criticism")
         assistant_thoughts_speak = assistant_thoughts.get("speak")
     logger.typewriter_log(
-        f"{ai_name.upper()}灵感:", Fore.YELLOW, f"{assistant_thoughts_text}"
+        f"{ai_name.upper()}议题:", Fore.YELLOW, f"{assistant_thoughts_text}"
     )
     logger.typewriter_log("愿景:", Fore.YELLOW, f"{assistant_thoughts_reasoning}")
     if assistant_thoughts_plan:

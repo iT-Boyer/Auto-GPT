@@ -87,7 +87,7 @@ def generate_aiconfig_manual() -> AIConfig:
     logger.typewriter_log(
         "制作说明:",
         Fore.GREEN,
-        "请在下面引导下，输入助手名称，职责和愿景。或回车启用默认助手。",
+        "请在下面引导下，输入助手名称，角色职能和目标。或回车启用默认助手。",
         speak_text=True,
     )
 
@@ -105,22 +105,22 @@ def generate_aiconfig_manual() -> AIConfig:
     logger.typewriter_log(
         "角色说明:",
         Fore.GREEN,
-        "为助手的设计一个角色，撰写角色的使命宣言，例如：'这个助手被设计成能够自主发展和经营企业，唯一的目标就是帮你增加净资产。'",
+        "为助手的设计一个角色，撰写角色的职能和使命宣言，例如：'这个助手被设计成能够自主发展和经营企业，唯一的目标就是帮你增加净资产。'",
     )
-    ai_role = utils.clean_input(f"{ai_name}的角色和使命: ")
+    ai_role = utils.clean_input(f"{ai_name}的角色职能: ")
     if ai_role == "":
         ai_role = "这个助手被设计成能够自主发展和经营企业，唯一的目标就是帮你增加净资产。"
 
     # Enter up to 5 goals for the AI
     logger.typewriter_log(
-        "愿景说明:",
+        "目标说明:",
         Fore.GREEN,
-        "为助手添加愿景，发挥想象力，心灵演练!例如: \n 增加收益，抖音涨粉，自主开发和管理多个业务",
+        "为助手添加职业目标,例如: \n 增加收益，抖音涨粉，自主开发和管理多个业务",
     )
-    logger.info("进入默认助手")
+    logger.info("不输入加载默认设置，不要输入任何内容代表目标设置完成。")
     ai_goals = []
     for i in range(5):
-        ai_goal = utils.clean_input(f"{Fore.LIGHTBLUE_EX}愿景{Style.RESET_ALL} {i+1}: ")
+        ai_goal = utils.clean_input(f"{Fore.LIGHTBLUE_EX}目标{Style.RESET_ALL} {i+1}: ")
         if ai_goal == "":
             break
         ai_goals.append(ai_goal)

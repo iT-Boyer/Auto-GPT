@@ -113,7 +113,7 @@ class Agent(
 
         # Clock
         extra_messages.append(
-            ChatMessage.system(f"The current time and date is {time.strftime('%c')}"),
+            ChatMessage.system(f"当前时间和日期: {time.strftime('%c')}"),
         )
 
         # Add budget information (if any) to prompt
@@ -126,13 +126,13 @@ class Agent(
                 remaining_budget = 0
 
             budget_msg = ChatMessage.system(
-                f"Your remaining API budget is ${remaining_budget:.3f}"
+                f"API剩余额度： ${remaining_budget:.3f}"
                 + (
-                    " BUDGET EXCEEDED! SHUT DOWN!\n\n"
+                    " 已超出预算，直接退出!\n\n"
                     if remaining_budget == 0
-                    else " Budget very nearly exceeded! Shut down gracefully!\n\n"
+                    else " 预算差一点就超出了! 正常退出!\n\n"
                     if remaining_budget < 0.005
-                    else " Budget nearly exceeded. Finish up.\n\n"
+                    else " 预算几乎超出。完成了。\n\n"
                     if remaining_budget < 0.01
                     else ""
                 ),
@@ -249,8 +249,7 @@ class Agent(
             result_tlength = self.llm_provider.count_tokens(str(result), self.llm.name)
             if result_tlength > self.send_token_limit // 3:
                 result = ActionErrorResult(
-                    reason=f"Command {command_name} returned too much output. "
-                    "Do not execute this command again with the same arguments."
+                    reason=f" {command_name} 命令，返回过多输出。 " "不要重复使用相同的参数执行该命令。"
                 )
 
             for plugin in self.config.plugins:

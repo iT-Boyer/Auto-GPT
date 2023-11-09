@@ -91,7 +91,7 @@ def get_latest_bulletin() -> tuple[str, bool]:
     new_bulletin = get_bulletin_from_web()
     is_new_news = new_bulletin != "" and new_bulletin != current_bulletin
 
-    news_header = Fore.YELLOW + "Welcome to AutoGPT!\n"
+    news_header = Fore.YELLOW + "欢迎使用Auto-GPT!\n"
     if new_bulletin or current_bulletin:
         news_header += (
             "Below you'll find the latest AutoGPT News and updates regarding features!\n"

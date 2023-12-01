@@ -1,6 +1,7 @@
 """Utilities for the json_fixes package."""
 import ast
 import logging
+import re
 from typing import Any
 
 logger = logging.getLogger(__name__)
@@ -8,9 +9,20 @@ logger = logging.getLogger(__name__)
 
 def extract_dict_from_response(response_content: str) -> dict[str, Any]:
     # Sometimes the response includes the JSON in a code block with ```
-    if response_content.startswith("```") and response_content.endswith("```"):
-        # Discard the first and last ```, then re-join in case the response naturally included ```
-        response_content = "```".join(response_content.split("```")[1:-1])
+    pattern = r"```([\s\S]*?)```"
+    match = re.search(pattern, response_content)
+
+    if match:
+        response_content = match.group(1).strip()
+        # Remove language names in code blocks
+        response_content = response_content.lstrip("json")
+    else:
+        # The string may contain JSON.
+        json_pattern = r"{.*}"
+        match = re.search(json_pattern, response_content)
+
+        if match:
+            response_content = match.group()
 
     # response content comes from OpenAI as a Python `str(content_dict)`, literal_eval reverses this
     try:
